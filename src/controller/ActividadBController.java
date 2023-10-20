@@ -1,6 +1,7 @@
 package controller;
 
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -9,7 +10,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -17,12 +20,20 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
 import model.Persona;
 
 public class ActividadBController implements Initializable{
 
 	@FXML
 	private Button btnAgregar;
+	
+	@FXML
+    private Button btnCancelar;
+
+    @FXML
+    private Button btnGuardar;
 	
 	@FXML
     private TableView<Persona> tblTabla;
@@ -45,7 +56,8 @@ public class ActividadBController implements Initializable{
 	@FXML
 	private TextField txtNombre;
 	
-	private ObservableList<Persona> listaPersonas;
+	// Variables de clase
+	static ObservableList<Persona> listaPersonas;
 
 	/*
 	 * Método de inicialización
@@ -63,43 +75,33 @@ public class ActividadBController implements Initializable{
 	}
 		
 	/*
-	 * Método para agregar personas a la tabla.
-	 * Se controla que los campos no pueden ser nulos y que el campo edad sea un número mayor que 1.
+	 * Método para abrir la ventana 'VentanaNuePer'
 	 */
 	@FXML
     void agregarPersona(ActionEvent event) {
-		String camposNulos = "";
+		Stage arg0 = new Stage();
+		arg0.setTitle("NUEVA PERSONA"); 
+		FlowPane aux;
 		try {
-			// Controlar que los parametros se insertan correctamente
-			if (txtNombre.getText().equals("")) {camposNulos = "El campo nombre es obligatorio\n";}
-			if (txtApellidos.getText().equals("")) {camposNulos += "El campo apellidos es obligatorio\n";}
-			if (txtEdad.getText().isEmpty()) {camposNulos += "El campo apellidos es obligatorio";}
-			if (camposNulos!="") {throw new NullPointerException();}
-			if (Integer.parseInt(txtEdad.getText().toString()) < 1) {throw new NumberFormatException();}
-			// Crear persona
-			String nombre= txtNombre.getText();
-			String apellidos= txtApellidos.getText();
-			Integer edad= Integer.parseInt(txtEdad.getText());
-			Persona p = new Persona(nombre, apellidos, edad);
-			// Insertar persona, controlando que no exista
-			if (listaPersonas.contains(p)== false) {
-				listaPersonas.add(p);
-				ventanaAlerta("C", "Persona añadida correctamente");
-			}else{
-				ventanaAlerta("E", "La persona ya existe");
-			}	
-		}catch(NullPointerException e){
-			ventanaAlerta("E", camposNulos);
-		}catch(NumberFormatException e) {
-			ventanaAlerta("E", "El valor de edad debe ser un número mayor que cero");
+			aux = (FlowPane)FXMLLoader.load(getClass().getResource("/fxml/NuevaPersona.fxml"));
+			Scene scene = new Scene(aux,600,300);
+			arg0.setScene(scene);
+			arg0.setMinHeight(300);
+			arg0.setMinWidth(600);
+			arg0.show();
+		} catch (IOException e) {
+			System.out.println("La ventana no se abrió correctamente.");
+			e.printStackTrace();
 		}
 		
     }
 	
+	
+	
 	/*
 	 * Metodo auxiliar para mostrar alertas de tipo error o confirmación
 	 */
-	void ventanaAlerta(String tipoAlerta, String mensaje) {
+	static void ventanaAlerta(String tipoAlerta, String mensaje) {
 		Alert alert = null;
 		switch (tipoAlerta) {
 			case ("E"):
@@ -111,5 +113,4 @@ public class ActividadBController implements Initializable{
         alert.setContentText(mensaje);
         alert.showAndWait();
 	}
-	
 }
