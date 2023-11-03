@@ -30,8 +30,9 @@ public class ActividadBController2 implements Initializable{
 	    @FXML
 	    private TextField txtNombre;
 
-	    /*
+	    /**
 	     * Metodo para cerrar la ventana auxiliar
+	     * @param event
 	     */
 	    @FXML
 	    void cancelarVentana(ActionEvent event) {
@@ -40,10 +41,11 @@ public class ActividadBController2 implements Initializable{
 	    	stage.close();
 	    }
 
-	    /*
-		 * Método para agregar personas a la tabla.
-		 * Se controla que los campos no pueden ser nulos y que el campo edad sea un número mayor que 1. 
-		 */
+	    /**
+	     * Método para agregar personas a la tabla.
+		 * Se controla que los campos no pueden ser nulos y que el campo edad sea un número mayor que 1.
+	     * @param event
+	     */
 		@FXML
 	    void guardarPersona(ActionEvent event) {
 			String camposNulos = "";

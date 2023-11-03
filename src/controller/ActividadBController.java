@@ -3,7 +3,6 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -14,7 +13,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -59,8 +57,9 @@ public class ActividadBController implements Initializable{
 	// Variables de clase
 	static ObservableList<Persona> listaPersonas;
 
-	/*
-	 * Método de inicialización
+	/**
+	 * Al iniciar la ventana, se enlazan las columnas con un arrayList que guarda las
+	 * personas registradas.
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -74,8 +73,9 @@ public class ActividadBController implements Initializable{
 		tblTabla.setItems(listaPersonas);		
 	}
 		
-	/*
-	 * Método para abrir la ventana 'VentanaNuePer'
+	/**
+	 * Método para abrir la ventana 'NuevaPersona'.
+	 * @param event
 	 */
 	@FXML
     void agregarPersona(ActionEvent event) {
@@ -98,8 +98,10 @@ public class ActividadBController implements Initializable{
 	
 	
 	
-	/*
+	/**
 	 * Metodo auxiliar para mostrar alertas de tipo error o confirmación
+	 * @param tipoAlerta
+	 * @param mensaje
 	 */
 	static void ventanaAlerta(String tipoAlerta, String mensaje) {
 		Alert alert = null;
